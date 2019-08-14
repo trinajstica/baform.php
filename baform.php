@@ -1,7 +1,6 @@
 <?php
 if ( isset( $_POST['submit'] ) ) {
-    
-    <?php
+
     $email_to = "YOUR_EMAIL";
     
     // DO NOT CHANGE ANYTHING FROM HERE DOWN
@@ -72,8 +71,5 @@ if ( isset( $_POST['submit'] ) ) {
     } else {
         header('Location: error.html');
     }
-?>
-
-    
 }
 ?>
