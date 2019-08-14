@@ -6,10 +6,6 @@
     $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}";
     $email_subject = "Message (".$actual_link.")";
 
-  function Valid_Input($data){
-    list($data) = preg_split('/\r|\n|%0A|%0D|0x0A|0x0D/i',ltrim($data));
-    return $data;
-  }
   
   function Valid_Email($data){
     $pattern = '/^([0-9a-z]([-.\w]*[0-9a-z])*@(([0-9a-z])+([-\w]*[0-9a-z])*\.)+[a-z]{2,6})$/i';
@@ -56,7 +52,7 @@
             }      
       }
       if ($key !== 'submit') {
-                 $email_message .= $key." : ".Valid_Input(clean_string($value))."\n";
+                 $email_message .= $key." : ".clean_string($value)."\n";
       }
     }
     
