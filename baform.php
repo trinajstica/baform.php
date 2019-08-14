@@ -1,12 +1,28 @@
 <?php
 if ( isset( $_POST['submit'] ) ) {
     
+    <?php
     $email_to = "YOUR_EMAIL";
     
     // DO NOT CHANGE ANYTHING FROM HERE DOWN
     
     $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}";
     $email_subject = "Message (".$actual_link.")";
+
+  function Valid_Input($data){
+    list($data) = preg_split('/\r|\n|%0A|%0D|0x0A|0x0D/i',ltrim($data));
+    return $data;
+  }
+  
+  function Valid_Email($data){
+    $pattern = '/^([0-9a-z]([-.\w]*[0-9a-z])*@(([0-9a-z])+([-\w]*[0-9a-z])*\.)+[a-z]{2,6})$/i';
+    if (preg_match($pattern,$data)){
+      return $data;
+    }
+    else{
+      return $GLOBALS['mailto'];
+    }
+  }
     
     function clean_string($string) {
       $bad = array("content-type","bcc:","to:","cc:","href");
@@ -37,13 +53,13 @@ if ( isset( $_POST['submit'] ) ) {
       $has_a = strpos($value, '@'); 
       if ($has_a > 0){    
             if(filter_var($value, FILTER_VALIDATE_EMAIL)) {
-              $email_from = $value;
+              $email_from = valid_email($value);
             } else {
               $email_from = $email_to;
             }      
       }
       if ($key !== 'submit') {
-                 $email_message .= $key." : ".clean_string($value)."\n";
+                 $email_message .= $key." : ".Valid_Input(clean_string($value))."\n";
       }
     }
     
@@ -56,6 +72,8 @@ if ( isset( $_POST['submit'] ) ) {
     } else {
         header('Location: error.html');
     }
+?>
+
     
 }
 ?>
