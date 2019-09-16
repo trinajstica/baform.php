@@ -13,8 +13,8 @@ Or just do this:
     document.getElementsByName('honeypot')[0].placeholder='Enter the number '+rand;<br>
 </script>
 <br><br>
-Change MyArray with your numbers or words.<br>
-<br>
+Change MyArray with your numbers or words.
+<br><br>
 2) Change this baform.php to match your changes in the script:
 <br><br>
 $os = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
