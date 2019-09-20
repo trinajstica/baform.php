@@ -28,9 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	  $_POST = array_map("strip_tags", $_POST);
 	  $_POST = array_map("htmlspecialchars", $_POST);
  
-      // if we have input field named honeypot, we check its value
       if ($_POST['honeypot']) {
-        $honeypot = mb_strtoupper($_POST['honeypot'], "UTF-8");   
+        $honeypot = $_POST['honeypot'];   
         if (!in_array($honeypot, $os)) {
             header("Location: ".$error);
             exit();
