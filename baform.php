@@ -5,8 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 
     // YOUR_RECAPTCHA_SITE_KEY
     // YOUR_RECAPTCHA_SECRET_KEY
-    // YOUR_EMAIL
-    
+    // YOUR_EMAIL    
     // YOU CAN REPLACE {$_SERVER['HTTP_REFERER']} with some filename (like error.html and success.html)
     
 /**
@@ -29,18 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 
 **/
     
-    
-    $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-    $recaptcha_secret = 'YOUR_RECAPTCHA_SECRET_KEY';
-    $recaptcha_response = $_POST['recaptcha_response'];
-
-    $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
-    $recaptcha = json_decode($recaptcha);
-    
+    $recaptcha_secret = 'YOUR_RECAPTCHA_SECRET_KEY';    
     $email_to = "YOUR_EMAIL";
-    
     $success = "{$_SERVER['HTTP_REFERER']}";
     $error = "{$_SERVER['HTTP_REFERER']}";
+    
+    // DO NOT EDIT IF YOU DO NOT KNOW WHAT YOU DOING BELOW THAT LINE:
+    
+    $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+    $recaptcha_response = $_POST['recaptcha_response'];
+    $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+    $recaptcha = json_decode($recaptcha);
     
     if ($recaptcha->score >= 0.5) {
 		try {
