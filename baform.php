@@ -1,6 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])) {
 
+// get your site public/secret keys: https://www.google.com/recaptcha/intro/v3.html
+
 // REPLACE THIS WITH ACTUAL DATA, AFTER THAT COPY IN YOUR /HEAD AND /FORM SECTION:
 
     // YOUR_RECAPTCHA_SITE_KEY
