@@ -1,4 +1,8 @@
 <?php
+
+$success = "{$_SERVER['HTTP_REFERER']}";
+$error = "{$_SERVER['HTTP_REFERER']}";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])) {
 
 // get your site public/secret keys: https://www.google.com/recaptcha/intro/v3.html
@@ -32,8 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 
     $recaptcha_secret = 'YOUR_RECAPTCHA_SECRET_KEY';
     $email_to = "YOUR_EMAIL";
-    $success = "{$_SERVER['HTTP_REFERER']}";
-    $error = "{$_SERVER['HTTP_REFERER']}";
 
     $line1 = "You have a new form submission from your site:";
     $line2 = "IP address:";
