@@ -1,7 +1,8 @@
 <?php
 
 $success = "{$_SERVER['HTTP_REFERER']}";
-$error = "{$_SERVER['HTTP_REFERER']}";
+$error   = "{$_SERVER['HTTP_REFERER']}";
+$ignored = array("submit","recaptcha_response","GDPR");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])) {
 
@@ -101,8 +102,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
                             $email_from = $email_to;
                         }
                     }
-                    if ($key !== 'submit' && $key !== 'recaptcha_response') {
-                            $email_message .= $key." :\n".clean_string($value)."\n\n";
+                    if (!in_array($key, $ignored)) {
+                            if (!empty($value)) {
+                               $email_message .= $key." :\n".clean_string($value)."\n\n";
+                            }
                     }
 
                 } //foreach end
