@@ -1,6 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptchaResponse'])) {
 
+   $ignored = array("submit","recaptchaResponse","GDPR","siteId","pageId");
+
 // for NICEPAGE
 
     $recaptcha_secret = 'YOUR_RECAPTCHA_SECRET_KEY';
@@ -68,8 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptchaResponse']))
                             $email_from = $email_to;
                         }
                     }
-                    if ($key !== 'submit' && $key !== 'recaptchaResponse' && $key !== 'siteId' && $key !== 'pageId' ) {
-                            $email_message .= $key." :\n".clean_string($value)."\n\n";
+                    if (!in_array($key, $ignored)) {
+                            if (!empty($value)) {
+                               $email_message .= $key." :\n".clean_string($value)."\n\n";
+                            }
                     }
 
                 } //foreach end
