@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptchaResponse']))
 
     $line1 = "You have a new form submission from your site:";
     $line2 = "IP address:";
+    $email_sub = "Form submission on site (";
 
     $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
     $recaptcha_response = $_POST['recaptchaResponse'];
@@ -22,8 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptchaResponse']))
                 $_POST = array_map("htmlspecialchars", $_POST);
 
                 $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}";
-                $email_subject = "Form submission on site (".$actual_link.")";
+                $email_subject = $email_sub.$actual_link.")";
 
+                mb_internal_encoding('UTF-8');
+                $encoded_subject = mb_encode_mimeheader("Subject: $email_subject", 'UTF-8');
+                $encoded_subject = substr($encoded_subject, strlen('Subject: '));
 
                 function Valid_Email($data){
                     $pattern = '/^([0-9a-z]([-.\w]*[0-9a-z])*@(([0-9a-z])+([-\w]*[0-9a-z])*\.)+[a-z]{2,6})$/i';
@@ -86,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptchaResponse']))
                 $headers .= "Content-type:text/plain;charset=UTF-8" . "\r\n";
                 $headers .= 'From: '.$email_from. "\r\n";
 
-                if (@mail($email_to, $email_subject, $email_message, $headers)) {
+                if (@mail($email_to, $encoded_subject, $email_message, $headers)) {
                         $resArray= array('success' => true);
                         header('Content-Type: application/json');
                         echo json_encode($resArray);
