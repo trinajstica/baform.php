@@ -118,7 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
                 $headers .= "Content-type:text/plain;charset=UTF-8" . "\r\n";
                 $headers .= 'From: '.$email_from. "\r\n";
 
-                if (@mail($email_to, $email_subject, $email_message, $headers)) {
+                $preferences = ['input-charset' => 'UTF-8', 'output-charset' => 'UTF-8'];
+                $encoded_subject = iconv_mime_encode('Subject', $email_subject, $preferences);
+                $encoded_subject = substr($encoded_subject, strlen('Subject: '));
+
+                if (@mail($email_to, $encoded_subject, $email_message, $headers)) {
                         header('Location: '.$success);
                 } else {
                         header('Location: '.$error);
